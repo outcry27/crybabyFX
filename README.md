@@ -1,6 +1,8 @@
 # crybabyFX
 "CryBaby" Prop FX - a compact, customizeable Arduino-based soundboard and effects driver.
 
+Dependencies: Requires Adafruit's Soundboard, LED Backpack, and GFX libraries present in your Arduino IDE in order to compile.
+
 Current Version: 1.0
 - Stable and usable, with muzzle strobe, LED alphanumeric display, and serial audio control all functional
 
