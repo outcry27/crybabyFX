@@ -12,19 +12,13 @@ and Adafruit websites, without which this project could never have been complete
   3. Fire Switch -> GND
   4. Safety toggle switch -> GND
   9. Muzzle LED, connect this to the GATE pin on the muzzle strobe MOSFET
+  12. Alternate Mode 1 (mode select switch left)
+  13. Alternate Mode 2 (mode select switch right)
   
   Audio FX board:
   TX. Connect to Trinket Pin 2 (labeled RX)
   RX. Connect to Trinket Pin 1 (labeled TX)
   UG. Jumper to GND to enable UART mode. 
-  
-  !-- DEPRECATED: the following have been replaced by Serial triggering --!
-  0. Firing sound
-  1. Firing "tail"
-  2. "Click" sound (out of ammo/safety on)
-  3. "Boot-up" sound
-  4. Music clip 1 (wired to a physical switch)
-  5. Music clip 2 (wired to a physical switch)
   
 */
 
