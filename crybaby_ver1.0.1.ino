@@ -14,6 +14,8 @@ and Adafruit websites, without which this project could never have been complete
   9. Muzzle LED, connect this to the GATE pin on the muzzle strobe MOSFET
   12. Alternate Mode 1 (mode select switch left)
   13. Alternate Mode 2 (mode select switch right)
+  A4. SDA (Serial Data to LED counter Pin 2)
+  A5. SCL (Serial Clock to LED counter Pin 1)
   
   Audio FX board:
   TX. Connect to Trinket Pin 2 (labeled RX)
