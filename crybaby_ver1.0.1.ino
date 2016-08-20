@@ -44,13 +44,11 @@ Adafruit_AlphaNum4 alpha4 = Adafruit_AlphaNum4();
 
 // constants:
 const int triggerPin = 3;     // the number of the firing trigger pin
-const int safetyPin = 4; // pin for the "safety" toggle
-const int fireSoundPin = 6; // pin for the firing sound
-const int muzzlePin =  9;      // the number of the LED pin
-const int startSoundPin = 10; // pin for the "boot-up" sound
-const int clickSoundPin = 11; // pin for the bolt "click" sound
-const int fireTailSoundPin = 12; // pin for the firing "tail" sound
-const int fireDelay = 50; // duration in milliseconds for each "shot"
+const int safetyPin = 4;      // pin for the "safety" toggle
+const int muzzlePin =  9;     // the number of the LED pin
+const int altModePin1 = 12;   // pin for Selector Switch Left
+const int altModePin2 = 13;   // pin for Selector Switch Right (sel. switch center is default)
+const int fireDelay = 50;     // duration in milliseconds for each "shot"
 
 // variables:
 boolean safetyOn = false;
@@ -67,28 +65,21 @@ void setup() {
   // initialize the trigger and safety pins as input:
   pinMode(triggerPin, INPUT);
   pinMode(safetyPin, INPUT);
-  // initialize the audio pins
-  pinMode(startSoundPin, INPUT);
-  pinMode(clickSoundPin, INPUT);
-  pinMode(fireTailSoundPin, INPUT);
-  pinMode(fireSoundPin, INPUT);
-  pinMode(triggerPin, INPUT);
-  pinMode(safetyPin, INPUT);
+  pinMode(altModePin1, INPUT);
+  pinMode(altModePin2, INPUT);
 
-  // set up the audio trigger pins to give a path to GND when set to OUTPUT
+  // set up beginning pin states
   digitalWrite(muzzlePin, LOW);
   digitalWrite(triggerPin, HIGH);
   digitalWrite(safetyPin, HIGH);
-  digitalWrite(startSoundPin, LOW);
-  digitalWrite(clickSoundPin, LOW);
-  digitalWrite(fireTailSoundPin, LOW);
-  digitalWrite(fireSoundPin, LOW);
+  digitalWrite(altModePin1, HIGH);
+  digitalWrite(altModePin2, HIGH);
 
   Serial.begin(9600);
   ss.begin(9600);
   alpha4.begin(0x70);  // pass in the address
 
-  delay(200);  //give the audio board time to power up; otherwise bootup sound will be called before audio board is ready
+  delay(200);  //give the audio board time to power up; otherwise bootup sound will be called before audio board is ready to play it
 
   Serial.print("#0\n");
 
@@ -227,22 +218,19 @@ void loop() {
     
     while (triggerState == LOW) {
     if (safetyOn == true) {
-      //playSound(clickSoundPin);
-      Serial.print("#2\n");
+      Serial.print("#2\n");                   // play dry-fire "click"
       triggerState = digitalRead(triggerPin);
       return;
     }
     if (ammoCount <= 0) {
-      //playSound(clickSoundPin);
       triggerState = digitalRead(triggerPin);
       return;
     }
     if (safetyOn == false) {
       if (ammoCount > 0) {
         // turn muzzle strobe on:
-        //pinMode(fireSoundPin, OUTPUT);
-        Serial.print("#3\n");
-        digitalWrite(muzzlePin, HIGH);
+        Serial.print("#3\n");           // start firing sound
+        digitalWrite(muzzlePin, HIGH);  // turn muzzle strobe on
         ammoCount--;
         
         // update the ammo counter
@@ -254,22 +242,18 @@ void loop() {
         delay(39);
         triggerState = digitalRead(triggerPin);
         if (triggerState == HIGH) {
-          // turn muzzle strobe off:
-          digitalWrite(muzzlePin, LOW);
-          //pinMode(fireSoundPin, INPUT);
-          Serial.print("q\n");
+          digitalWrite(muzzlePin, LOW); // turn muzzle strobe off
+          Serial.print("q\n");          // stop firing sound
           //delay(10);
           //playSound(fireTailSoundPin);
           //Serial.print("#1\n");
           //delay(400);
         }
         if (ammoCount == 0){
-          digitalWrite(muzzlePin, LOW);
-          pinMode(fireSoundPin, INPUT);
-          //playSound(clickSoundPin);
-          Serial.print("q\n");
+          digitalWrite(muzzlePin, LOW);  // turn muzzle strobe off  
+          Serial.print("q\n");           // stop firing sound
           delay(10);
-          Serial.print("#2\n"); 
+          Serial.print("#2\n");          // play dry-fire "click"
         }
       }
     }
@@ -281,4 +265,3 @@ void loop() {
   }
   lastSafetyState = safetyState;  
 }
-
