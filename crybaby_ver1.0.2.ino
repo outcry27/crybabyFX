@@ -50,8 +50,10 @@ const int fireDelay = 50;     // duration in milliseconds for each "shot"
 boolean safetyOn = false;
 int triggerState = 0;         // variable for reading the trigger status
 int safetyState = 0;          // variable for reading the safety switch status
+int musicState = 0;           // variable for reading Alt Mode 2
 int lastTriggerState = 0;     // previous state of the trigger
 int lastSafetyState = 0;      // previous state of the safety switch
+int lastMusicState = 0;           // previous state of the Alt Mode 2 switch (mode select slider, right position)
 int ammoCount = 299;
 String ammoDisp = String(ammoCount);
 
@@ -77,7 +79,7 @@ void setup() {
 
   delay(200);  //give the audio board time to power up; otherwise bootup sound will be called before audio board is ready to play it
 
-  Serial.print("#0\n");
+  Serial.print("#0\n");  //play "boot-up" sound
 
   alpha4.writeDigitAscii(0, '0');
   alpha4.writeDigitAscii(1, '2');
@@ -92,6 +94,7 @@ void setup() {
     delay(50);         
   }
   updateAmmoCounter();
+  delay(1100);
 }
 
 // this function calls the current value of ammoCount and writes it to the LED display
@@ -147,6 +150,9 @@ void setSafe() {
 
 void setArm() {
   safetyOn = false;
+
+  Serial.print("#4\n");             // play "gun cocking" sound
+  
   alpha4.writeDigitAscii(0, ' ');
   alpha4.writeDigitAscii(1, 'A');
   alpha4.writeDigitAscii(2, 'R');
@@ -179,6 +185,7 @@ void setArm() {
   alpha4.writeDigitAscii(2, 'R');
   alpha4.writeDigitAscii(3, 'M'); 
   alpha4.writeDisplay();
+
   delay(300);
   updateAmmoCounter();
 }
@@ -194,17 +201,23 @@ void playSound(char *name) {
 
 // --MAIN LOOP STARTS HERE--
 void loop() {
-  safetyState = digitalRead(safetyPin);
-  if (safetyState != lastSafetyState) {
-    if (safetyState == LOW) {
-      if (safetyOn == false) {
+    safetyState = digitalRead(safetyPin);
+    if (safetyState != lastSafetyState) {
+      if (safetyState == HIGH) {
+       if (safetyOn == false) {
         setSafe();
+       }
       }
-      else if (safetyOn == true) {
-        setArm();        
+      if (safetyState == LOW) {
+        if (safetyOn == true)  {
+          setArm();
+        }
       }
     }
-  }
+
+  musicState = digitalRead(altModePin2);
+  if (musicState != last  
+
   triggerState = digitalRead(triggerPin);
   if (triggerState != lastTriggerState) {
     if (triggerState == HIGH) {
