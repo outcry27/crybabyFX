@@ -5,7 +5,7 @@ Dependencies: Requires Adafruit's Soundboard, LED Backpack, and GFX libraries pr
 
 
 NOTE ON CUSTOMIZING THE AUDIO: 
-Triggering the audio files via UART Serial command works by calling them by their relative number in a list, rather than by their filename: "Serial.print("#4\n")" or "Serial.print("#0\n")", for example.  However... for whatever reason, the Audio FX board lists the files in *REVERSE* order (ie., if you have "T00.wav" through "T05.wav" stored on the FX board, it will list T05.wav as File 0 and T00.wav as File 6.)  So, it's important to remember that any time you add or remove audio files, you either have to update the serial calls in the code, or you have t0 change all of the file names so their relative positions in the list remain the same.
+Triggering the audio files via UART Serial command works by calling them by their relative number in a list, rather than by their filename: "Serial.print("#4\n")" or "Serial.print("#0\n")", for example.  However... for whatever reason, the Audio FX board lists the files in *REVERSE* order.  In other words, if you have "T00.wav" through "T05.wav" stored on the FX board, it will list T05.wav as File 0 and T00.wav as File 6.)  So, it's important to remember that any time you add or remove audio files, you either have to update the serial calls in the code, or you have t0 change all of the file names so their relative positions in the list remain the same.
 
 
 Current Version: 1.0.3
