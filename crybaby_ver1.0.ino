@@ -131,8 +131,8 @@ void updateAmmoCounter() {
           else if (ammoCount < 10000) {
             alpha4.writeDigitAscii(0, ammoDisp[0]);
             alpha4.writeDigitAscii(1, ammoDisp[1]);
-            alpha4.writeDigitAscii(1, ammoDisp[2]);
-            alpha4.writeDigitAscii(1, ammoDisp[3]);
+            alpha4.writeDigitAscii(2, ammoDisp[2]);
+            alpha4.writeDigitAscii(3, ammoDisp[3]);
           }
           alpha4.writeDisplay();
 }
